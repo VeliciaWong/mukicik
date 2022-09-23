@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Mukicik</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Black+Han+Sans|Roboto">
+    <link rel="stylesheet" href="/assets/styling.css">
+</head>
+<body>
+    <div class="header" style="font-family: 'Black Han Sans', sans-serif;">
+        <a href="">
+            <h2>Mukicik</h2>
+        </a>
+    </div>
+
+    <!-- content -->
+    <div class="container-sm">
+        <div class="box">
+            <div class="left">
+                <p class="intro">Welcome to Mukicik! <br>
+                    Mukicik is a Free Online <br> Library for public</p>
+                <button class="loginBtn" id="google-sign-in"style="width: fit-content; font-family: 'Roboto', sans-serif;">ADMIN LOGIN</button>
+            </div>
+
+            <script src="https://apis.google.com/js/platform.js" async defer></script>
+            <script defer src="/__/firebase/8.2.9/firebase-app.js"></script>
+            <script defer src="/__/firebase/8.2.9/firebase-auth.js"></script>
+            <script defer src="/__/firebase/init.js?useEmulator=true"></script>
+
+            <script>
+
+                $(document).ready(() => {
+                let app = firebase.app();
+
+                if (location.hostname === "localhost") {
+                    firebase.auth().useEmulator("http://localhost:3005");
+                }
+                firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+                //   firebase.auth().setPersistence(firebase.auth.Auth.Persistence.NONE);
+
+                $('#google-sign-in').click(() =>
+                {
+                    var provider = new firebase.auth.GoogleAuthProvider();
+                    provider.addScope('https://www.googleapis.com/auth/userinfo.email');
+                    provider.addScope('https://www.googleapis.com/auth/userinfo.profile');
+
+                    firebase.auth().signInWithPopup(provider).then((result) => {
+                    if (result.credential) {
+                        // The signed-in user info.
+                        var user = result.user;
+                        return user.getIdTokenResult().then((idTokenResult) => {
+                        idTokenResult.refreshToken = user.refreshToken;
+                        return fetch("/adminLogin", {
+                            method: "POST",
+                            headers: {
+                            Accept: "application/json",
+                            "Content-Type": "application/json",
+                            "CSRF-Token": Cookies.get("csrfToken"),
+                            },
+                            body: JSON.stringify({ idTokenResult }),
+                        });
+                        });
+                    }
+                    })
+                    .then(() => {
+                    setTimeout(function() { 
+                        window.location.assign('/mukicik/home');
+                    }, 3000);
+
+                    }).catch((error) => {
+                    // Handle Errors here.
+                    var errorCode = error.code;
+                    var errorMessage = error.message;
+                    // The email of the user's account used.
+                    var email = error.email;
+                    // The firebase.auth.AuthCredential type that was used.
+                    var credential = error.credential;
+
+                        });
+
+                    });
+
+                });
+            </script>
+
+
+            <div class="right">
+                <img src="https://i.ibb.co/YX0V2s8/fococlipping-20220302-134821.png" alt="fococlipping-20220302-134821" class="pic">
+            </div>
+        </div>
+        
+    </div>
+    
+    <div class="footer">
+        <h5 class="footerTitle"> &copy 2022 by Rizky & Veli</h5>
+    </div>
+</body>
+</html>

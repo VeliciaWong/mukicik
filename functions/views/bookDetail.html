@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mukicik | Book Detail</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Black+Han+Sans|Roboto">
+    <link rel="stylesheet" href="/assets/styling.css">
+</head>
+<body>
+    <nav class="navbar" role="navigation" aria-label="main navigation" style="display: flex;">
+        <div class="navbar-brand">
+          <a class="header" href="/mukicik/home" style="text-decoration: none;">
+                <h3>Mukicik</h3>
+            </a>
+          <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+          </a>
+        </div>
+      
+          <div class="navbar-start" style="display: flex; align-items: center;">
+            <div class="navbar-item" style="padding-right: 1rem;">
+                <a class="navbar-item" href="/mukicik/home" style="text-decoration: none; color: #BA5624;">
+                    Book List
+                </a>
+            </div>
+
+            <div class="navbar-item">
+                <a class="navbar-item" href="/mukicik/listofAuthor" style="padding-right: 1rem; text-decoration: none; color: #BA5624;">
+                    List of Author
+                </a>
+            </div>
+
+            <div class="navbar-item">
+                <a class="navbar-item" href="/getAllData" style="padding-right: 1rem;">
+                    <button class="inputBtn">INPUT BOOK</button>
+                </a>
+            </div>
+          </div>
+      </nav>
+
+    <div class="container">
+        <div class="content">
+            
+            <h1 class="bookTitles"><%= bookdata.bookTitle %></h1>
+            <ul class="bookDetails" style="padding-top: 2rem;">
+                <tbody>
+                    
+                <tr>
+                    <td class="authorNames"><h3><%= authordata.AuthorName %></h3></td>
+                    <td class="bookDesc"><h5><%= bookdata.bookDescription %></h5></td>
+                </tr>
+   
+                </tbody>
+            </ul>
+        </div>
+    </div>
+
+    <footer class="footer">
+        &copy 2022 by Rizky & Veli
+    </footer>
+
+</body>
+</html>
